@@ -1,0 +1,79 @@
+-#.container
+-#  .row
+-#    .col-sm-12
+-#      - flash.each do |name, msg|
+-#        = content_tag :div, msg, class: [:alert, alert_for(name)]
+-#  -#- if @user_currency_exchanges.size > 0
+-#        -#= content_tag :div, "", id: "myfirstchart", data: {rates: @user_currency_exchanges.first.future_rates}
+-#  .row
+-#    .col-sm-12
+-#      .panel.panel-default
+-#        .panel-heading
+-#          %h5.text-center Change money from one currency to another
+-#        .panel-body
+-#          .row
+-#            .col-sm-6.col-sm-offset-3#error-div.text-center
+-#
+-#          .row
+-#            = form_for @user_currency_exchange, :html => { class: "inline-form" }, url: { action: "create" }, remote: true do |f|
+-#              .col-sm-2.col-sm-offset-1
+-#                .form-group
+-#                  = f.label :base_currency_id, "Base currency"
+-#                  = f.select :base_currency_id, options_from_collection_for_select(@currencies, 'id','code'), { include_blank: true}, { class: "form-control", id: "base_currency_id" }
+-#              .col-sm-2
+-#                .form-group
+-#                  = f.label :target_currency_id, "Target currency"
+-#                  -#= f.number_field :target_currency_id, class: "form-control"
+-#                  = f.select :target_currency_id, options_from_collection_for_select(@currencies, 'id','code'), { include_blank: true} , { class: "form-control", id: "target_currency_id" }
+-#              .col-sm-2
+-#                .form-group
+-#                  = f.label :amount, "Amount"
+-#                  = f.number_field :amount, class: "form-control"
+-#              .col-sm-3
+-#                .form-group
+-#                  = f.label :week_nr, "Waiting time (in weeks)".html_safe
+-#                  = f.number_field :week_nr, class: "form-control"
+-#              .col-sm-2
+-#                = f.submit "Add", class: "btn btn-primary currency-form"
+-#  .row
+-#    .col-sm-12
+-#      .panel.panel-default
+-#        .panel-heading
+-#          %h3.text-center Your currency exchanges
+-#        %table.table.table-bordered
+-#          %tbody.text-center
+-#            %tr.text-center
+-#              %th.text-center Base <br/>currency
+-#              %th.text-center Target <br/>currency
+-#              %th.text-center Amount
+-#              %th.text-center Waiting Time (in weeks)
+-#              %th.text-center Update/Delete
+-#
+-#            - @user_currency_exchanges.each do |currency|
+-#              %tr.accordion-toggle{"data-target" => "#demo1", "data-toggle" => "collapse"}
+-#                %td
+-#                  = currency.base_currency.code
+-#                %td
+-#                  = currency.target_currency.code
+-#                %td
+-#                  = currency.amount
+-#                %td
+-#                  = currency.week_nr
+-#                %td
+-#                  .btn-group-xs
+-#                    %button.btn.btn-success
+-#                      %span.glyphicon.glyphicon-ok
+-#                    %button.btn.btn-danger
+-#                      %span.glyphicon.glyphicon-remove
+-#
+-#                        -#- currency.future_rates.each do |f|
+-#                    -#  %tr
+-#                    -#    %td
+-#                    -#      = f[:period]
+-#                    -#    %td
+-#                    -#      = f[:predicted_rate]
+-#                    -#    %td
+-#                    -#      = f[:future_exchange_value]
+-#                    -#    %td
+-#                    -#      = f[:difference]
+-#                    -#    %td

@@ -1,0 +1,3 @@
+class ExchangesController < ApplicationController
+
+end

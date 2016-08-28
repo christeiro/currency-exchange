@@ -35,11 +35,16 @@ gem 'devise', '~> 4.2'
 gem 'money', '~> 6.7'
 gem "haml-rails", "~> 0.9"
 gem 'bootstrap', '~> 4.0.0.alpha3.1'
+source 'https://rails-assets.org' do
+  gem 'rails-assets-tether', '>= 1.1.0'
+end
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platform: :mri
   gem 'rspec-rails', '~> 3.5'
+  gem 'fabrication', '~> 2.14'
+  gem 'faker', '~> 1.6'
 end
 
 group :development do
