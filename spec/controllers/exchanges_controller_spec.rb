@@ -12,5 +12,14 @@ describe ExchangesController do
       get :index
       expect(assigns(:exchange)).to be_a_new(Exchange)
     end
+
+    it "sets @currencies" do
+      user = Fabricate(:user)
+      eur_currency = Fabricate(:currency)
+      usd_currency = Fabricate(:currency, code: Money::Currency.new('USD').iso_code )
+      sign_in(user)
+      get :index
+      expect(assigns(:currencies)).to match_array([eur_currency, usd_currency])
+    end
   end
 end

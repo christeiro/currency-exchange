@@ -4,5 +4,10 @@ class ExchangesController < ApplicationController
   def index
     @exchange = Exchange.new
     @currency_exchanges = current_user.exchanges
+    @currencies = Currency.all
+  end
+
+  def create
+    
   end
 end
