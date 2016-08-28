@@ -1,0 +1,5 @@
+<% if @exchange.persisted? %>
+$("#notice").html("<%=j j(render :partial => 'shared/messages', locals: {flash: flash[:success] == 'Success'}) %>');
+<% else %>
+$('#error-div').html('<%= j(render :partial => 'errors', locals: {errors: @exchange.errors.full_messages}) %>');
+<% end %>

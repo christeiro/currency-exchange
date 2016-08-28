@@ -1,12 +1,11 @@
 .container
   .row
     .col-xs-12
-      .panel.panel-default
-        .panel-heading
-          %h5.text-center Change money from one currency to another
-        .panel-body
+      .card.card-block
+        %h4.card-title Change money from one currency to another
+        .card-text
           .row
-            .col-sm-6.col-sm-offset-3#error-div.text-center
+            .col-xs-6.offset-xs-2#error-div.text-center
           .row
             = form_for @exchange, :html => { class: "inline-form" }, url: { action: "create" }, remote: true do |f|
               .col-xs-2.col-sm-offset-1
@@ -28,45 +27,40 @@
                   = f.number_field :period, class: "form-control"
               .col-xs-2
                 = f.submit "Add", class: "btn btn-primary currency-form"
--#  .row
--#    .col-sm-12
--#      .panel.panel-default
--#        .panel-heading
--#          %h3.text-center Your currency exchanges
--#        %table.table.table-bordered
--#          %tbody.text-center
--#            %tr.text-center
--#              %th.text-center Base <br/>currency
--#              %th.text-center Target <br/>currency
--#              %th.text-center Amount
--#              %th.text-center Waiting Time (in weeks)
--#              %th.text-center Update/Delete
--#
--#            - @user_currency_exchanges.each do |currency|
--#              %tr.accordion-toggle{"data-target" => "#demo1", "data-toggle" => "collapse"}
--#                %td
--#                  = currency.base_currency.code
--#                %td
--#                  = currency.target_currency.code
--#                %td
--#                  = currency.amount
--#                %td
--#                  = currency.week_nr
--#                %td
--#                  .btn-group-xs
--#                    %button.btn.btn-success
--#                      %span.glyphicon.glyphicon-ok
--#                    %button.btn.btn-danger
--#                      %span.glyphicon.glyphicon-remove
--#
--#                        -#- currency.future_rates.each do |f|
--#                    -#  %tr
--#                    -#    %td
--#                    -#      = f[:period]
--#                    -#    %td
--#                    -#      = f[:predicted_rate]
--#                    -#    %td
--#                    -#      = f[:future_exchange_value]
--#                    -#    %td
--#                    -#      = f[:difference]
--#                    -#    %td
+  .row
+    .col-xs-12
+      .card.card-block
+        %h4.card-title Your currency exchanges
+        .card-text
+          %table.table.table-bordered
+            %tbody.text-center
+              %tr.text-center
+                %th.text-center Base <br/>currency
+                %th.text-center Target <br/>currency
+                %th.text-center Amount
+                %th.text-center Waiting Time (in weeks)
+                %th.text-center Update/Delete
+
+              - @currency_exchanges.each do |exchange|
+                %tr{:id => "#{exchange.id}"}
+                  %td
+                    = exchange.base_currency.code
+                  %td
+                    = exchange.target_currency.code
+                  %td
+                    = exchange.amount
+                  %td
+                    = exchange.period
+                  %td
+                    .btn-toolbar{"aria-label" => "Toolbar with button groups", :role => "toolbar"}
+                      .btn-group{"aria-label" => "First group", :role => "group"}
+                        = link_to exchange_path(exchange), method: :get, class: "btn btn-success btn-sm" do
+                          %i.fa.fa-pencil-square-o{"aria-hidden" => "true"}
+                      .btn-group{"aria-label" => "Second group", :role => "group"}
+                        = link_to exchange_path(exchange), method: :delete, data: { confirm: 'Are you sure?' }, remote: true, class: "btn btn-danger btn-sm" do
+                          %i.fa.fa-trash-o{"aria-hidden" => "true"}
+
+
+    -#%a.btn.btn-danger.btn-sm{"aria-pressed" => "true", :href => "#", :role => "button"}
+                        -#= link_to "#",
+
