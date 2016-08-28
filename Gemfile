@@ -32,8 +32,9 @@ gem 'jbuilder', '~> 2.5'
 
 
 gem 'devise', '~> 4.2'
-
 gem 'money', '~> 6.7'
+gem "haml-rails", "~> 0.9"
+gem 'bootstrap', '~> 4.0.0.alpha3.1'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
