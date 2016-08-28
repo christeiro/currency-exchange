@@ -12,20 +12,17 @@ class ExchangesController < ApplicationController
     @exchange.save
     respond_to do |format|
       format.js
+      format.html { redirect_to exchanges_path }
     end
   end
 
   def destroy
-    binding.pry
-    @exchange = curren_user.exchange.find(params[:id])
-    # @comment = @moment.comments.find(params[:id])
-    # if @comment.user.id = current_user.id
-    #   @comment.delete
-    #   respond_to do |format|
-    #     format.html { redirect_to root_path }
-    #     format.js
-    #   end
-    # end
+    @exchange = current_user.exchanges.find(params[:id])
+    @exchange.destroy
+    respond_to do |format|
+      format.js
+      format.html { redirect_to exchanges_path }
+    end
   end
 
   private

@@ -42,7 +42,7 @@
                 %th.text-center Update/Delete
 
               - @currency_exchanges.each do |exchange|
-                %tr{:id => "#{exchange.id}"}
+                %tr{:id => "exchange_#{exchange.id}"}
                   %td
                     = exchange.base_currency.code
                   %td
@@ -59,8 +59,4 @@
                       .btn-group{"aria-label" => "Second group", :role => "group"}
                         = link_to exchange_path(exchange), method: :delete, data: { confirm: 'Are you sure?' }, remote: true, class: "btn btn-danger btn-sm" do
                           %i.fa.fa-trash-o{"aria-hidden" => "true"}
-
-
-    -#%a.btn.btn-danger.btn-sm{"aria-pressed" => "true", :href => "#", :role => "button"}
-                        -#= link_to "#",
 

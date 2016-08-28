@@ -8,6 +8,8 @@
     = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
   %body
     = render 'shared/header'
-    -#= flash_messages
-    = render 'shared/messages'
+    .container
+      .row
+        .col-md-4.offset-md-4.m-t-2#notice
+          = render 'shared/messages'
     = yield

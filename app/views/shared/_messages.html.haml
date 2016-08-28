@@ -1,8 +1,5 @@
-.container#notice
-  .row
-    .col-md-4.offset-md-4.m-t-2
-      - flash.each do |name, msg|
-        .alert.alert-dismissible.fade.in{:class => alert_for(name), :role => "alert"}
-          %button.close{"aria-label" => "Close", "data-dismiss" => "alert", :type => "button"}
-            %span{"aria-hidden" => "true"} ×
-          = msg
+- flash.each do |name, msg|
+  .alert.alert-dismissible.fade.in{:class => alert_for(name), :role => "alert"}
+    %button.close{"aria-label" => "Close", "data-dismiss" => "alert", :type => "button"}
+      %span{"aria-hidden" => "true"} ×
+    = msg
