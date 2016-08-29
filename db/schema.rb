@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160829065158) do
+ActiveRecord::Schema.define(version: 20160829090757) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -62,6 +62,17 @@ ActiveRecord::Schema.define(version: 20160829065158) do
     t.datetime "updated_at",                          null: false
     t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
+  end
+
+  create_table "weekly_rates", force: :cascade do |t|
+    t.date     "rate_date"
+    t.float    "rate"
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
+    t.integer  "base_currency_id"
+    t.integer  "target_currency_id"
+    t.index ["base_currency_id"], name: "index_weekly_rates_on_base_currency_id", using: :btree
+    t.index ["target_currency_id"], name: "index_weekly_rates_on_target_currency_id", using: :btree
   end
 
 end
