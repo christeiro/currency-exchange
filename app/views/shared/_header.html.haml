@@ -3,6 +3,8 @@
   - if user_signed_in?
     %ul.nav.navbar-nav.pull-xs-right
       %li.nav-item
+        = link_to "Exchanges", exchanges_path, class: "nav-link"
+      %li.nav-item
         .dropdown
           %a#dropdownMenuLink.btn.btn-secondary.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-target" => "#", "data-toggle" => "dropdown"}
             = "Welcome, #{current_user.email}"

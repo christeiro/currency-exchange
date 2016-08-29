@@ -6,9 +6,9 @@ $(function(){
         // The name of the data record attribute that contains x-values.
         xkey: 'period',
         // A list of names of data record attributes that contain y-values.
-        ykeys: ['predicted_rate'],
+        ykeys: ['profit_loss'],
         // Labels for the ykeys -- will be displayed when you hover over the
         // chart.
-        labels: ['Rate']
+        labels: ['Profit/Loss']
     });
 })

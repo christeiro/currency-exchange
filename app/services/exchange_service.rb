@@ -38,14 +38,16 @@ class ExchangeService
     # binding.pry
     future_currency_rates = []
     current_value = @exchange.amount * daily_rate
+    request_date = @exchange.request_date
+    period = @exchange.period
     @exchange.period.times do
-      @exchange.request_date += 1.week
-      @exchange.period += 1
-      future_rate = prediction.predict(@exchange.period)
+      request_date += 1.week
+      period += 1
+      future_rate = prediction.predict(period)
       future_value = @exchange.amount * future_rate
       profit_loss = future_value - current_value
       future_currency_rates.push({
-                                   'period': "#{@exchange.request_date.strftime('%Y W%W')}",
+                                   'period': "#{request_date.strftime('%Y W%W')}",
                                    'predicted_rate': future_rate.round(4),
                                    'future_value': future_value.round(2),
                                    'profit_loss': profit_loss.round(4),

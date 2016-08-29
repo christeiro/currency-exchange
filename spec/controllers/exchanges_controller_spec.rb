@@ -74,6 +74,7 @@ describe ExchangesController do
       eur_currency = Fabricate(:currency)
       usd_currency = Fabricate(:currency, code: Money::Currency.new('USD').iso_code )
       exchange = Exchange.create!(amount: 100, period: 1, base_currency: eur_currency, target_currency: usd_currency, user: user)
+      BackgroundJob.create(start_date: Date.today, period: 1, base_currency: eur_currency, exchange: exchange)
       get :show, params: { id: exchange.id }
       expect(assigns(:exchange)).to eq(exchange)
     end

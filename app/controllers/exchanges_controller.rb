@@ -9,9 +9,7 @@ class ExchangesController < ApplicationController
 
   def create
     @exchange = current_user.exchanges.build(set_params)
-    if @exchange.save
-      create_background_job(@exchange)
-    end
+    create_background_job(@exchange) if @exchange.save
     respond_to do |format|
       format.js
       format.html { redirect_to exchanges_path }
@@ -32,17 +30,18 @@ class ExchangesController < ApplicationController
     @exchange = Exchange.find(params[:id])
     predicted_rates
     unless @predicted_rates
-      flash[:notice] = "Your currency exchange is being calculated, please check back shortly"
+      flash[:notice] = 'Your currency exchange is being calculated,
+        please check back shortly'
     end
   end
 
   def update
     @exchange = Exchange.find(params[:id])
     @exchange.update_attributes(set_params)
-    binding.pry
     if @exchange.save
       create_background_job(@exchange)
-      redirect_to exchange_path(@exchange)
+      flash[:success] = 'Currency Rate updated'
+      redirect_to exchanges_path
     else
       currencies
       render :show
