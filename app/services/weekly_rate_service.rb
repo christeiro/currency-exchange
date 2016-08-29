@@ -1,28 +1,28 @@
-class WeeklyCurrencyRateService
-  def initialize(base_currency_id, target_currency_id, start_date, period)
+class WeeklyRateService
+  def initialize(base_currency_id, start_date, period)
     @base_currency_id = base_currency_id
     @start_date = start_date.at_beginning_of_week
     @period = period
     @end_date = start_date.at_beginning_of_week - period.week
-    @target_currency_id = target_currency_id
   end
 
   def perform
     missing_currency_rates = missing_rate_dates(existing_rate_dates)
-    # if missing_currency_rates
-    #   base = base_currency
-    #   symbols = generate_symbols
-    #   currency_rates = []
-    #   missing_currency_rates.each do |date|
-    #     currency_rates.push(load_rates(date, base[:code], symbols))
-    #   end
-    #   save_rates(currency_rates)
-    # end
+    if missing_currency_rates
+      base = base_currency
+      symbols = generate_symbols
+      currency_rates = []
+      missing_currency_rates.each do |date|
+        currency_rates.push(load_rates(date, base[:code], symbols))
+      end
+      import_rates(currency_rates)
+    end
   end
 
+  private
 
   def existing_rate_dates
-    WeeklyCurrencyRate.base_currency_by_date(@base_currency_id, @start_date, @end_date)
+    WeeklyRate.rates_by_date(@base_currency_id, @start_date, @end_date)
   end
 
   def missing_rate_dates(existing_currency_rates = [])
@@ -38,20 +38,28 @@ class WeeklyCurrencyRateService
     FixerApiClientService.new(date: date, base: base, symbols: symbols).perform
   end
 
+  def import_rates(currency_rates)
+    begin
+      save_rates(currency_rates)
+    rescue ActiveRecord::RecordInvalid
+      return false
+    end
+  end
+
   def save_rates(currency_rates)
-    currencies_list = Currency.all
-    currency_rates.each do |rates|
-      rate_date = rates["date"]
-      rates["rates"].each do |code, rate|
-        target_currency_id = find_currency_id(currencies_list, code)
-        weekly_currency_rate = WeeklyCurrencyRate.new(currency_rate: rate, rate_date: rate_date, target_currency_id: target_currency_id, base_currency_id: @base_currency_id)
-        weekly_currency_rate.save
+    ActiveRecord::Base.transaction do
+      currencies_list = Currency.all
+      currency_rates.each do |rates|
+        rate_date = rates["date"]
+        rates["rates"].each do |code, rate|
+          target_currency_id = find_currency_id(currencies_list, code)
+          WeeklyRate.create!(rate: rate, rate_date: rate_date, target_currency_id: target_currency_id, base_currency_id: @base_currency_id)
+        end
       end
     end
   end
 
   def base_currency
-    #rescue!
     Currency.find(@base_currency_id)
   end
 
