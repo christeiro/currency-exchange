@@ -42,7 +42,7 @@ describe ExchangesController do
       eur_currency = Fabricate(:currency)
       usd_currency = Fabricate(:currency, code: Money::Currency.new('USD').iso_code )
       sign_in(user)
-      post :create, params: { exchange: { base_currency_id: eur_currency.id, target_currency_id: usd_currency.id, amount: 100, period: 1 } }
+      process :create, method: :post, params: { exchange: { base_currency_id: eur_currency.id, target_currency_id: usd_currency.id, amount: 100, period: 1 } }
       expect(BackgroundJob.count).to eq(1)
     end
   end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160829093358) do
+ActiveRecord::Schema.define(version: 20160829124257) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -31,6 +31,17 @@ ActiveRecord::Schema.define(version: 20160829093358) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["code"], name: "index_currencies_on_code", unique: true, using: :btree
+  end
+
+  create_table "daily_rates", force: :cascade do |t|
+    t.date     "rate_date"
+    t.float    "rate"
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
+    t.integer  "base_currency_id"
+    t.integer  "target_currency_id"
+    t.index ["base_currency_id"], name: "index_daily_rates_on_base_currency_id", using: :btree
+    t.index ["target_currency_id"], name: "index_daily_rates_on_target_currency_id", using: :btree
   end
 
   create_table "exchanges", force: :cascade do |t|
