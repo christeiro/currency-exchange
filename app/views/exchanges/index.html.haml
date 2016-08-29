@@ -32,7 +32,7 @@
       .card.card-block
         %h4.card-title Your currency exchanges
         .card-text
-          %table.table.table-bordered
+          %table.table.table-bordered#exchanges
             %tbody.text-center
               %tr.text-center
                 %th.text-center Base <br/>currency
@@ -40,23 +40,5 @@
                 %th.text-center Amount
                 %th.text-center Waiting Time (in weeks)
                 %th.text-center Update/Delete
-
               - @currency_exchanges.each do |exchange|
-                %tr{:id => "exchange_#{exchange.id}"}
-                  %td
-                    = exchange.base_currency.code
-                  %td
-                    = exchange.target_currency.code
-                  %td
-                    = exchange.amount
-                  %td
-                    = exchange.period
-                  %td
-                    .btn-toolbar{"aria-label" => "Toolbar with button groups", :role => "toolbar"}
-                      .btn-group{"aria-label" => "First group", :role => "group"}
-                        = link_to exchange_path(exchange), method: :get, class: "btn btn-success btn-sm" do
-                          %i.fa.fa-pencil-square-o{"aria-hidden" => "true"}
-                      .btn-group{"aria-label" => "Second group", :role => "group"}
-                        = link_to exchange_path(exchange), method: :delete, data: { confirm: 'Are you sure?' }, remote: true, class: "btn btn-danger btn-sm" do
-                          %i.fa.fa-trash-o{"aria-hidden" => "true"}
-
+                = render 'exchange', exchange: exchange

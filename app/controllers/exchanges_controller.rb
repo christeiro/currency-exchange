@@ -9,7 +9,9 @@ class ExchangesController < ApplicationController
 
   def create
     @exchange = current_user.exchanges.build(set_params)
-    @exchange.save
+    if @exchange.save
+      create_background_job(@exchange)
+    end
     respond_to do |format|
       format.js
       format.html { redirect_to exchanges_path }
@@ -31,4 +33,8 @@ class ExchangesController < ApplicationController
     params.require(:exchange).permit(:base_currency_id, :target_currency_id, :period, :amount)
   end
 
+  def create_background_job(exchange)
+    job = BackgroundJob.create(period: exchange.period, base_currency_id: exchange.base_currency_id, target_currency_id: exchange.target_currency_id, exchange: exchange)
+    BackgroundJobWorker.perform_async(job)
+  end
 end
