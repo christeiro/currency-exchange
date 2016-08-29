@@ -7,4 +7,6 @@ class BackgroundJobService
 
     raise Exception.new
   end
+
+  private
 end
