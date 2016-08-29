@@ -62,4 +62,20 @@ describe ExchangesController do
       expect(Exchange.count).to eq(0)
     end
   end
+
+  describe "GET show" do
+    it_behaves_like "requires sign in" do
+      let(:action) { get :show, params: { id: 1} }
+    end
+
+    it "it sets @exchange" do
+      user = Fabricate(:user)
+      sign_in(user)
+      eur_currency = Fabricate(:currency)
+      usd_currency = Fabricate(:currency, code: Money::Currency.new('USD').iso_code )
+      exchange = Exchange.create!(amount: 100, period: 1, base_currency: eur_currency, target_currency: usd_currency, user: user)
+      get :show, params: { id: exchange.id }
+      expect(assigns(:exchange)).to eq(exchange)
+    end
+  end
 end

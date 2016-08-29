@@ -1,0 +1,60 @@
+.container
+  .row
+    .col-xs-12
+      - if @predicted_rates
+        = content_tag :div, "", id: "myfirstchart", data: {rates: @predicted_rates }
+  .row
+    .col-md-10
+      .card.card-block
+        %h4.card-title Change money from one currency to another
+        .card-text
+          .row
+            .col-xs-6.offset-xs-2#error-div.text-center
+              - if @exchange.errors.any?
+                = render :partial => 'errors', locals: {errors: @exchange.errors.full_messages}
+          .row
+            = form_for @exchange, :html => { class: "inline-form" }, url: { action: "update" } do |f|
+              .col-xs-2.col-sm-offset-1
+                .form-group
+                  = f.label :base_currency_id, "Base currency"
+                  = f.select :base_currency_id, options_from_collection_for_select(@currencies, 'id','code', @exchange.base_currency_id ), { include_blank: true}, { class: "form-control", id: "base_currency_id" }
+              .col-xs-2
+                .form-group
+                  = f.label :target_currency_id, "Target currency"
+                  -#= f.number_field :target_currency_id, class: "form-control"
+                  = f.select :target_currency_id, options_from_collection_for_select(@currencies, 'id','code', @exchange.target_currency_id ), { include_blank: true} , { class: "form-control", id: "target_currency_id" }
+              .col-xs-2
+                .form-group
+                  = f.label :amount, "Amount"
+                  = f.number_field :amount, class: "form-control"
+              .col-xs-3
+                .form-group
+                  = f.label :period, "Waiting time (in weeks)".html_safe
+                  = f.number_field :period, class: "form-control"
+              .col-xs-2
+                = f.submit "Update", class: "btn btn-primary currency-form"
+  .row
+    %table.table.table-bordered
+      %tbody.text-center
+        %tr#rates
+          %td{:colspan => "6"}
+            %table.table.table-bordered
+              %tr.text-center
+                %th.text-center Year/Week
+                %th.text-center Rate
+                %th.text-center Exchanged SUM
+                %th.text-center Profit Loss
+                %th.text-center Rank
+              - if @predicted_rates
+                - @predicted_rates.each do |f|
+                  %tr
+                    %td
+                      = f[:period]
+                    %td
+                      = f[:predicted_rate]
+                    %td
+                      = f[:future_value]
+                    %td
+                      = f[:profit_loss]
+                    %td
+                      = f[:rank]

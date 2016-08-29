@@ -15,4 +15,6 @@
 //= require tether
 //= require bootstrap-sprockets
 //= require turbolinks
+//= require raphael
+//= require morris
 //= require_tree .

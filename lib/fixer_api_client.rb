@@ -15,7 +15,6 @@ class FixerApiClient
 
   def perform
     begin
-      binding.pry
       @conn.get "/#{@date}", @options
     rescue StandardError
       nil

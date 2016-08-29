@@ -27,6 +27,28 @@ class ExchangesController < ApplicationController
     end
   end
 
+  def show
+    currencies
+    @exchange = Exchange.find(params[:id])
+    predicted_rates
+    unless @predicted_rates
+      flash[:notice] = "Your currency exchange is being calculated, please check back shortly"
+    end
+  end
+
+  def update
+    @exchange = Exchange.find(params[:id])
+    @exchange.update_attributes(set_params)
+    binding.pry
+    if @exchange.save
+      create_background_job(@exchange)
+      redirect_to exchange_path(@exchange)
+    else
+      currencies
+      render :show
+    end
+  end
+
   private
 
   def set_params
@@ -36,5 +58,13 @@ class ExchangesController < ApplicationController
   def create_background_job(exchange)
     job = BackgroundJob.create(period: exchange.period, base_currency_id: exchange.base_currency_id, exchange: exchange)
     BackgroundJobWorker.perform_async(job.id)
+  end
+
+  def predicted_rates
+    @predicted_rates = ExchangeService.new(@exchange).perform
+  end
+
+  def currencies
+    @currencies = Currency.all
   end
 end
