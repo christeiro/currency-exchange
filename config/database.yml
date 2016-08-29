@@ -78,8 +78,8 @@ test:
 #   production:
 #     url: <%= ENV['DATABASE_URL'] %>
 #
-production:
-  <<: *default
-  database: currency-exchange_production
-  username: currency-exchange
-  password: <%= ENV['CURRENCY-EXCHANGE_DATABASE_PASSWORD'] %>
+#production:
+#  <<: *default
+#  database: d3a97q87l7dn67
+#  username: currency-exchange
+#  password: <%= ENV['CURRENCY-EXCHANGE_DATABASE_PASSWORD'] %>
