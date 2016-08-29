@@ -43,6 +43,7 @@ gem 'sidekiq'
 gem 'sinatra', github: 'sinatra', require: false
 gem 'slim'
 gem 'httparty'
+gem 'faraday', '~> 0.9'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -51,6 +52,8 @@ group :development, :test do
   gem 'fabrication', '~> 2.14'
   gem 'faker', '~> 1.6'
   gem 'pry'
+  gem 'vcr'
+  gem 'webmock'
 end
 
 group :development do

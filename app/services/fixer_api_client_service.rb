@@ -7,7 +7,7 @@ class FixerApiClientService
   end
 
   def perform
-    currency_rates = FixerApiClient.new(@date, { query: query_params} ).perform
+    currency_rates = FixerApiClient.new(@date, query_params).perform
     get_rates(currency_rates)
   end
 
