@@ -8,7 +8,7 @@ class WeeklyRateService
 
   def perform
     missing_currency_rates = missing_rate_dates(existing_rate_dates)
-    if missing_currency_rates
+    unless missing_currency_rates.empty?
       base = base_currency
       symbols = generate_symbols
       currency_rates = []
