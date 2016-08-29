@@ -4,6 +4,9 @@ class BackgroundJobService
   end
 
   def perform
-    WeeklyRateService.new({base_currency: @job.base_currency_id, start_date: @job.start_date, period: @job.period}).perform
+    weekly_rates = WeeklyRateService.new(@job.base_currency_id, @job.start_date, @job.period).perform
+    daily_rates = DailyRateService.new(@job.base_currency_id).perform
+    raise Exception.new unless weekly_rates && daily_rates
+    true
   end
 end

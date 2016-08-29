@@ -35,6 +35,6 @@ class ExchangesController < ApplicationController
 
   def create_background_job(exchange)
     job = BackgroundJob.create(period: exchange.period, base_currency_id: exchange.base_currency_id, exchange: exchange)
-    BackgroundJobWorker.perform_async(job)
+    BackgroundJobWorker.perform_async(job.id)
   end
 end

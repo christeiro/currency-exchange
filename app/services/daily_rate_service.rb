@@ -9,11 +9,12 @@ class DailyRateService
       base = base_currency
       symbols = generate_symbols
       daily_rates = load_rates(@start_date, base, symbols)
-      import_rates(daily_rates) if daily_rates
-      return false
+      return false unless import_rates(daily_rates)
     end
     true
   end
+
+  private
 
   def rate_exists?(base_currency_id)
     DailyRate.daily_rate_exists?(base_currency_id)
@@ -36,7 +37,7 @@ class DailyRateService
       currencies_list = Currency.all
       currency_rates["rates"].each do |code, rate|
         target_currency_id = find_currency_id(currencies_list, code)
-        WeeklyRate.create!(rate: rate, rate_date: Date.today, target_currency_id: target_currency_id, base_currency_id: @base_currency_id)
+        DailyRate.create!(rate: rate, rate_date: Date.today, target_currency_id: target_currency_id, base_currency_id: @base_currency_id)
       end
     end
   end

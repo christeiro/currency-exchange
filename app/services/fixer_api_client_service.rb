@@ -14,9 +14,8 @@ class FixerApiClientService
   private
 
   def get_rates(response)
-    result = JSON.parse(response.body)
-    return false if result["error"]
-    result
+    return false unless response
+    JSON.parse(response.body)
   end
 
 

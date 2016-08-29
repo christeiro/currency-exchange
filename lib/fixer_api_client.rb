@@ -12,7 +12,7 @@ class FixerApiClient
     begin
       self.class.get("/#{@date}", @options)
     rescue StandardError
-      JSON.generate({"error": "Issues connecting with the site!"})
+      nil
     end
   end
 end

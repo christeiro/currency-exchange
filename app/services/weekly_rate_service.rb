@@ -13,10 +13,13 @@ class WeeklyRateService
       symbols = generate_symbols
       currency_rates = []
       missing_currency_rates.each do |date|
-        currency_rates.push(load_rates(date, base[:code], symbols))
+        rate = load_rates(date, base[:code], symbols)
+        currency_rates.push(rate) if rate
       end
-      import_rates(currency_rates)
+      return false if currency_rates.empty?
+      return import_rates(currency_rates)
     end
+    true
   end
 
   private
@@ -44,6 +47,7 @@ class WeeklyRateService
     rescue ActiveRecord::RecordInvalid
       return false
     end
+    true
   end
 
   def save_rates(currency_rates)
