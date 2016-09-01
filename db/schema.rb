@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160829124257) do
+ActiveRecord::Schema.define(version: 20160901115121) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -51,6 +51,7 @@ ActiveRecord::Schema.define(version: 20160829124257) do
     t.integer "user_id"
     t.integer "base_currency_id"
     t.integer "target_currency_id"
+    t.integer "completed",          default: 0
     t.index ["base_currency_id"], name: "index_exchanges_on_base_currency_id", using: :btree
     t.index ["target_currency_id"], name: "index_exchanges_on_target_currency_id", using: :btree
     t.index ["user_id"], name: "index_exchanges_on_user_id", using: :btree

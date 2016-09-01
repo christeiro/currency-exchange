@@ -55,8 +55,7 @@ class ExchangesController < ApplicationController
   end
 
   def create_background_job(exchange)
-    job = BackgroundJob.create(period: exchange.period, base_currency_id: exchange.base_currency_id, exchange: exchange)
-    BackgroundJobWorker.perform_async(job.id)
+    ExchangeWorker.perform_async(exchange.id)
   end
 
   def predicted_rates

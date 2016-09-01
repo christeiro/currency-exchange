@@ -4,8 +4,7 @@ class ExchangeService
   end
 
   def perform
-    job = @exchange.background_jobs.last
-    return false unless job.completed
+    return false if @exchange.completed.zero?
     future_rates
   end
 
