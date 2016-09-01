@@ -1,6 +1,0 @@
-<% if @exchange.persisted? %>
-$("#error-div").html('');
-$('#exchanges tbody').append('<%= j(render :partial => 'exchange', locals: {exchange: @exchange}) %>');
-<% else %>
-$('#error-div').html('<%= j(render :partial => 'errors', locals: {errors: @exchange.errors.full_messages}) %>');
-<% end %>
