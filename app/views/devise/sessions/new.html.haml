@@ -1,17 +1,20 @@
 .container
   .row
     .col-md-4.offset-md-4.m-t-2
-      .well
-        %header
-          %h1 Sign In
-        = form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
-          .form-group
-            = f.label :email, "Email"
-            = f.email_field :email, autofocus: true, class: "form-control", placeholder: "Email address"
-          .form-group
-            = f.label :password
-            = f.password_field :password, autocomplete: "off", placeholder: "Password", class: "form-control"
-          = f.submit "Sign In", class: "btn btn-primary"
-        .help-block
-          Don't have an account?
-          = link_to "Join now", new_user_registration_path
+      .card
+        .card-header.p-b-0
+          %h5.card-title
+            %i.fa.fa-sign-in{aria: {hidden: "true" }}
+            Sign In
+        .card-block
+          = form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
+            .form-group
+              = f.label :email, "Email"
+              = f.email_field :email, autofocus: true, class: "form-control", placeholder: "Email address"
+            .form-group
+              = f.label :password
+              = f.password_field :password, autocomplete: "off", placeholder: "Password", class: "form-control"
+            = f.submit "Sign In", class: "btn btn-primary"
+          .help-block
+            Don't have an account?
+            = link_to "Join now", new_user_registration_path

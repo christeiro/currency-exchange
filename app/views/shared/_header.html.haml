@@ -1,12 +1,16 @@
-%nav.navbar.navbar-light.bg-faded
-  %a.navbar-brand Currency Exchange
+%nav.navbar.navbar-light{style: "background-color: #e3f2fd;"}
+  .navbar-brand
+    %i.fa.fa-exchange{aria: {hidden: "true"}}
+    Currency Exchange
   - if user_signed_in?
     %ul.nav.navbar-nav.pull-xs-right
       %li.nav-item
-        = link_to "Exchanges", exchanges_path, class: "nav-link"
+        = link_to "My Exchanges", exchanges_path, class: "nav-link"
       %li.nav-item
         .dropdown
           %a#dropdownMenuLink.btn.btn-secondary.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-target" => "#", "data-toggle" => "dropdown"}
             = "Welcome, #{current_user.email}"
           .dropdown-menu{"aria-labelledby" => "dropdownMenuLink"}
-            = link_to "Sign out", destroy_user_session_path, method: :delete, class: "dropdown-item"
+            = link_to destroy_user_session_path, method: :delete, class: "dropdown-item" do
+              %i.fa.fa-sign-out
+              Sign Out

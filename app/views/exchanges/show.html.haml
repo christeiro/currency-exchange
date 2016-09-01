@@ -21,7 +21,6 @@
               .col-xs-2
                 .form-group
                   = f.label :target_currency_id, "Target currency"
-                  -#= f.number_field :target_currency_id, class: "form-control"
                   = f.select :target_currency_id, options_from_collection_for_select(@currencies, 'id','code', @exchange.target_currency_id ), { include_blank: true} , { class: "form-control", id: "target_currency_id" }
               .col-xs-2
                 .form-group
