@@ -42,7 +42,6 @@ gem 'font-awesome-rails'
 gem 'sidekiq'
 gem 'sinatra', github: 'sinatra', require: false
 gem 'slim'
-gem 'httparty'
 gem 'faraday', '~> 0.9'
 
 group :development, :test do

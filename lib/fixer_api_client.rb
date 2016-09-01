@@ -1,7 +1,4 @@
 class FixerApiClient
-  include HTTParty
-
-  base_uri 'http://api.fixer.io/'
 
   def initialize(date, options)
     @date = date
