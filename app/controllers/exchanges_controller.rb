@@ -27,11 +27,16 @@ class ExchangesController < ApplicationController
 
   def show
     currencies
-    @exchange = Exchange.find(params[:id])
-    predicted_rates
-    unless @predicted_rates
-      flash[:notice] = 'Your currency exchange is being calculated,
+    @exchange = Exchange.find_by_id(params[:id])
+    if @exchange
+      predicted_rates
+      unless @predicted_rates
+        flash[:notice] = 'Your currency exchange is being calculated,
         please check back shortly'
+      end
+    else
+      flash[:notice] = 'The item does not exist anymore!'
+      redirect_to exchanges_path
     end
   end
 
