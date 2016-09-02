@@ -42,7 +42,7 @@ class ExchangesController < ApplicationController
 
   def update
     @exchange = Exchange.find(params[:id])
-    @exchange.update_attributes(set_params)
+    @exchange.update_attributes(set_params.merge(completed: 0, request_date: Date.today))
     if @exchange.save
       create_background_job(@exchange)
       flash[:success] = 'Currency Rate updated'
