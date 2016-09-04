@@ -8,7 +8,7 @@ class ExchangesController < ApplicationController
   end
 
   def create
-    @exchange = current_user.exchanges.build(set_params.merge(request_date: Date.today))
+    @exchange = current_user.exchanges.build(set_params)
     create_background_job(@exchange) if @exchange.save
     respond_to do |format|
       format.js
@@ -42,7 +42,7 @@ class ExchangesController < ApplicationController
 
   def update
     @exchange = Exchange.find(params[:id])
-    @exchange.update_attributes(set_params.merge(completed: 0, request_date: Date.today))
+    @exchange.update_attributes(set_params)
     if @exchange.save
       create_background_job(@exchange)
       flash[:success] = 'Currency Rate updated'
@@ -56,7 +56,7 @@ class ExchangesController < ApplicationController
   private
 
   def set_params
-    params.require(:exchange).permit(:base_currency_id, :target_currency_id, :period, :amount)
+    params.require(:exchange).permit(:base_currency_id, :target_currency_id, :period, :amount).merge(completed: 0, request_date: Date.today)
   end
 
   def create_background_job(exchange)
