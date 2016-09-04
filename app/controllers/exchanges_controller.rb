@@ -8,7 +8,7 @@ class ExchangesController < ApplicationController
   end
 
   def create
-    @exchange = current_user.exchanges.build(set_params)
+    @exchange = current_user.exchanges.build(set_params.merge(request_date: Date.today))
     create_background_job(@exchange) if @exchange.save
     respond_to do |format|
       format.js

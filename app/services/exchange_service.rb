@@ -27,7 +27,8 @@ class ExchangeService
   end
 
   def daily_rate
-    currency_rate = DailyRate.select('rate').where('base_currency_id = ? AND target_currency_id = ? AND rate_date = ?', @exchange.base_currency_id, @exchange.target_currency_id, Date.today)
+    binding.pry
+    currency_rate = DailyRate.select('rate').where('base_currency_id = ? AND target_currency_id = ? AND rate_date = ?', @exchange.base_currency_id, @exchange.target_currency_id, @exchange.request_date)
     currency_rate.first.rate
   end
 

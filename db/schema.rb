@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160901131529) do
+ActiveRecord::Schema.define(version: 20160904100648) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -37,7 +37,7 @@ ActiveRecord::Schema.define(version: 20160901131529) do
   create_table "exchanges", force: :cascade do |t|
     t.integer "amount"
     t.integer "period"
-    t.date    "request_date",       default: '2016-08-28', null: false
+    t.date    "request_date"
     t.integer "user_id"
     t.integer "base_currency_id"
     t.integer "target_currency_id"
