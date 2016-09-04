@@ -34,7 +34,6 @@ class ExchangeService
 
   def calculate_future_rates
     prediction = LinearRegression.new(previous_weekly_rates)
-    # binding.pry
     future_currency_rates = []
     current_value = @exchange.amount * daily_rate
     request_date = @exchange.request_date

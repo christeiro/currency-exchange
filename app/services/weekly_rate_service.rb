@@ -13,7 +13,7 @@ class WeeklyRateService
       symbols = generate_symbols
       currency_rates = []
       missing_currency_rates.each do |date|
-        rate = load_rates(date, base[:code], symbols)
+        rate = load_rates(date, base, symbols)
         currency_rates.push(rate) if rate
       end
       return false if currency_rates.empty?
@@ -64,7 +64,8 @@ class WeeklyRateService
   end
 
   def base_currency
-    Currency.find(@base_currency_id)
+    currency = Currency.find(@base_currency_id)
+    currency[:code]
   end
 
   def find_currency_id(currencies_list, currency_code)
