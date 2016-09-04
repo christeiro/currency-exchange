@@ -1,3 +1,4 @@
+# ApplicationHelper is a default rails helper class
 module ApplicationHelper
   def alert_for(flash_type)
     {

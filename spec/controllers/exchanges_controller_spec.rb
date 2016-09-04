@@ -28,7 +28,7 @@ describe ExchangesController do
       let(:action) { post :create }
     end
 
-    it "creates the exchange it" do
+    it "creates the exchange" do
       user = Fabricate(:user)
       eur_currency = Fabricate(:currency)
       usd_currency = Fabricate(:currency, code: Money::Currency.new('USD').iso_code )
@@ -36,15 +36,6 @@ describe ExchangesController do
       post :create, params: { exchange: { base_currency_id: eur_currency.id, target_currency_id: usd_currency.id, amount: 100, period: 1 } }
       expect(Exchange.count).to eq(1)
     end
-
-    # it "creates the background job" do
-    #   user = Fabricate(:user)
-    #   eur_currency = Fabricate(:currency)
-    #   usd_currency = Fabricate(:currency, code: Money::Currency.new('USD').iso_code )
-    #   sign_in(user)
-    #   process :create, method: :post, params: { exchange: { base_currency_id: eur_currency.id, target_currency_id: usd_currency.id, amount: 100, period: 1 } }
-    #   expect(BackgroundJob.count).to eq(1)
-    # end
   end
 
   describe "DELETE destroy" do
@@ -57,7 +48,7 @@ describe ExchangesController do
       sign_in(user)
       eur_currency = Fabricate(:currency)
       usd_currency = Fabricate(:currency, code: Money::Currency.new('USD').iso_code )
-      exchange = Exchange.create(amount: 100, period: 1, base_currency: eur_currency, target_currency: usd_currency, user: user)
+      exchange = Exchange.create(amount: 100, period: 1, base_currency: eur_currency, target_currency: usd_currency, user: user, request_date: Date.today)
       process :destroy, method: :delete, params: { id: exchange.id }
       expect(Exchange.count).to eq(0)
     end
@@ -73,8 +64,7 @@ describe ExchangesController do
       sign_in(user)
       eur_currency = Fabricate(:currency)
       usd_currency = Fabricate(:currency, code: Money::Currency.new('USD').iso_code )
-      binding.pry
-      exchange = Exchange.create!(amount: 100, period: 1, base_currency: eur_currency, target_currency: usd_currency, user: user)
+      exchange = Exchange.create!(amount: 100, period: 1, base_currency: eur_currency, target_currency: usd_currency, user: user, request_date: Date.today)
       get :show, params: { id: exchange.id }
       expect(assigns(:exchange)).to eq(exchange)
     end

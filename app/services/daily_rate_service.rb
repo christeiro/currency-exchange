@@ -1,3 +1,4 @@
+# DailyRateService class is responsible for adding new daily rates.
 class DailyRateService < WeeklyRateService
   def initialize(base_currency_id, start_date = Date.today.strftime('%Y-%m-%d'))
     @base_currency_id = base_currency_id
@@ -23,9 +24,11 @@ class DailyRateService < WeeklyRateService
   def save_rates(currency_rates)
     ActiveRecord::Base.transaction do
       currencies_list = Currency.all
-      currency_rates["rates"].each do |code, rate|
+      currency_rates['rates'].each do |code, rate|
         target_currency_id = find_currency_id(currencies_list, code)
-        DailyRate.create!(rate: rate, rate_date: Date.today, target_currency_id: target_currency_id, base_currency_id: @base_currency_id)
+        DailyRate.create!(rate: rate, rate_date: Date.today,
+                          target_currency_id: target_currency_id,
+                          base_currency_id: @base_currency_id)
       end
     end
   end

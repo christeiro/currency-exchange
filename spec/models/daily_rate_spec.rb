@@ -3,8 +3,8 @@ require 'rails_helper'
 describe DailyRate do
   it { should validate_presence_of(:rate) }
   it { should validate_presence_of(:rate_date) }
-  it { should belong_to(:base_currency).with_foreign_key(:base_currency_id) }
-  it { should belong_to(:target_currency).with_foreign_key(:target_currency_id) }
+  it { should belong_to(:base_currency) }
+  it { should belong_to(:target_currency) }
 
   describe "daily_rate" do
     it "returns false if there's no records" do

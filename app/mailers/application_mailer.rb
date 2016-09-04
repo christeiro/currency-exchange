@@ -1,3 +1,4 @@
+# ApplicationMailer is a rails default class for sending emails.
 class ApplicationMailer < ActionMailer::Base
   default from: 'from@example.com'
   layout 'mailer'

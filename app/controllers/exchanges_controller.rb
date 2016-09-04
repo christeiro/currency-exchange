@@ -1,3 +1,5 @@
+# ExchangesController for signed in users.
+# It allows users to create, delete, update, view his/her currency exchanges
 class ExchangesController < ApplicationController
   before_action :authenticate_user!
 
@@ -56,7 +58,9 @@ class ExchangesController < ApplicationController
   private
 
   def set_params
-    params.require(:exchange).permit(:base_currency_id, :target_currency_id, :period, :amount).merge(completed: 0, request_date: Date.today)
+    params.require(:exchange).permit(:base_currency_id, :target_currency_id,
+                                     :period, :amount)
+          .merge(completed: 0, request_date: Date.today)
   end
 
   def create_background_job(exchange)
