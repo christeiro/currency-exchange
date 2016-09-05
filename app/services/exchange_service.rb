@@ -21,8 +21,8 @@ class ExchangeService
   end
 
   def previous_weekly_rates
-    start_date = @exchange.request_date.at_beginning_of_week
-    start_date -= @exchange.period.week
+    start_date = @exchange.request_date.at_beginning_of_week -
+                 @exchange.period.week
     weekly_rates = WeeklyRate.select(:rate)
                              .where('base_currency_id = ?
                                      AND target_currency_id = ?
@@ -34,13 +34,14 @@ class ExchangeService
   end
 
   def prediction
-    LinearRegression.new(previous_weekly_rates)
+    @prediction ||= LinearRegression.new(previous_weekly_rates)
   end
 
   def daily_rate
     currency_rate = DailyRate.select('rate')
-                             .where('base_currency_id = ? AND
-                                     target_currency_id = ? AND rate_date = ?',
+                             .where('base_currency_id = ?
+                                     AND target_currency_id = ?
+                                     AND rate_date = ?',
                                     @exchange.base_currency_id,
                                     @exchange.target_currency_id,
                                     @exchange.request_date)
@@ -48,23 +49,51 @@ class ExchangeService
   end
 
   def calculate_future_rates
-    current_value = @exchange.amount * daily_rate
-    request_date = @exchange.request_date
-    period = @exchange.period
-    future_currency_rates_hsh(current_value, request_date, period)
+    future_currency_rates_hsh
   end
 
-  def future_currency_rates_hsh(current_value, request_date, period)
-    prediction = LinearRegression.new(previous_weekly_rates)
-    @exchange.period.times do
-      request_date += 1.week
-      period += 1
-      future_currency_rates.push(
-        period: request_date.strftime('%Y W%W').to_s,
-        predicted_rate: prediction.predict(period).round(4),
-        future_value:  (@exchange.amount * future_rate).round(4),
-        profit_loss: (future_value - current_value), rank: ''
-      )
+  def future_currency_rates_hsh
+    future_currency_rates = []
+    @exchange.period.times do |interval|
+      future_currency_rates
+        .push(period: future_date(interval),
+              predicted_rate: future_rate(prediction, interval),
+              future_value: future_value(prediction, interval),
+              profit_loss: profit_loss(prediction, interval),
+              rank: '')
     end
+    future_currency_rates
+  end
+
+  def current_value
+    current_rate_value = @exchange.amount * daily_rate
+    current_rate_value
+  end
+
+  def future_date(interval)
+    sequence = interval + 1
+    future_date_value = @exchange.request_date + sequence.week
+    future_date_value.strftime('%Y W%W').to_s
+  end
+
+  def future_period(interval)
+    sequence = interval + 1
+    future_period_value = @exchange.period + sequence
+    future_period_value
+  end
+
+  def future_rate(prediction, interval)
+    future_rate_value = prediction.predict(future_period(interval))
+    future_rate_value.round(4)
+  end
+
+  def future_value(prediction, interval)
+    future_exchange_value = future_rate(prediction, interval) * @exchange.amount
+    future_exchange_value.round(2)
+  end
+
+  def profit_loss(prediction, interval)
+    profit_loss_value = future_value(prediction, interval) - current_value
+    profit_loss_value.round(2)
   end
 end
