@@ -2,6 +2,7 @@
 # It allows users to create, delete, update, view his/her currency exchanges
 class ExchangesController < ApplicationController
   before_action :authenticate_user!
+  before_action :currencies, only: [:show]
 
   def index
     @exchange = Exchange.new
@@ -28,14 +29,9 @@ class ExchangesController < ApplicationController
   end
 
   def show
-    currencies
     @exchange = Exchange.find_by_id(params[:id])
     if @exchange
       predicted_rates
-      unless @predicted_rates
-        flash[:notice] = 'Your currency exchange is being calculated,
-        please check back shortly'
-      end
     else
       flash[:notice] = 'The item does not exist anymore!'
       redirect_to exchanges_path
@@ -69,6 +65,10 @@ class ExchangesController < ApplicationController
 
   def predicted_rates
     @predicted_rates = ExchangeService.new(@exchange).perform
+    unless @predicted_rates
+      flash[:notice] = 'Your currency exchange is being calculated,
+        please check back shortly'
+    end
   end
 
   def currencies

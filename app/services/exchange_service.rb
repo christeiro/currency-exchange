@@ -48,26 +48,23 @@ class ExchangeService
   end
 
   def calculate_future_rates
-    prediction = LinearRegression.new(previous_weekly_rates)
-    future_currency_rates = []
     current_value = @exchange.amount * daily_rate
     request_date = @exchange.request_date
     period = @exchange.period
+    future_currency_rates_hsh(current_value, request_date, period)
+  end
+
+  def future_currency_rates_hsh(current_value, request_date, period)
+    prediction = LinearRegression.new(previous_weekly_rates)
     @exchange.period.times do
       request_date += 1.week
       period += 1
-      future_rate = prediction.predict(period)
-      future_value = @exchange.amount * future_rate
-      profit_loss = future_value - current_value
-      future_currency_rates
-        .push(
-          period: request_date.strftime('%Y W%W').to_s,
-          predicted_rate: future_rate.round(4),
-          future_value: future_value.round(2),
-          profit_loss: profit_loss.round(4),
-          rank: ''
-        )
+      future_currency_rates.push(
+        period: request_date.strftime('%Y W%W').to_s,
+        predicted_rate: prediction.predict(period).round(4),
+        future_value:  (@exchange.amount * future_rate).round(4),
+        profit_loss: (future_value - current_value), rank: ''
+      )
     end
-    future_currency_rates
   end
 end
