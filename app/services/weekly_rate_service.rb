@@ -10,8 +10,9 @@ class WeeklyRateService
   def perform
     missing_currency_rates = missing_rate_dates(existing_rate_dates)
     unless missing_currency_rates.empty?
-      return false if load_missing_rates(missing_currency_rates).empty?
-      return import_rates(load_missing_rates(missing_currency_rates))
+      missing_rates = load_missing_rates(missing_currency_rates)
+      return false if missing_rates.empty?
+      return import_rates(missing_rates)
     end
     true
   end

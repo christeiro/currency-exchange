@@ -1,6 +1,8 @@
 require 'fixer_api_client'
+# FixerApiClientService class holds the fixer.io API logic
 class FixerApiClientService
-  def initialize(date: Date.today.strftime('%Y-%m-%d'), base: 'EUR', symbols: '')
+  def initialize(date: Date.today.strftime('%Y-%m-%d'),
+                 base: 'EUR', symbols: '')
     @date = date
     @base = base
     @symbols = symbols
@@ -17,7 +19,6 @@ class FixerApiClientService
     return false unless response
     JSON.parse(response.body)
   end
-
 
   def query_params
     return { base: @base }  if @symbols.empty?

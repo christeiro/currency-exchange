@@ -18,7 +18,7 @@ class DailyRateService < WeeklyRateService
   private
 
   def rate_exists?(base_currency_id)
-    DailyRate.daily_rate_exists?(base_currency_id)
+    DailyRate.daily_rate_exists?(base_currency_id, @start_date)
   end
 
   def save_rates(currency_rates)
@@ -26,7 +26,7 @@ class DailyRateService < WeeklyRateService
       currencies_list = Currency.all
       currency_rates['rates'].each do |code, rate|
         target_currency_id = find_currency_id(currencies_list, code)
-        DailyRate.create!(rate: rate, rate_date: Date.today,
+        DailyRate.create!(rate: rate, rate_date: @start_date,
                           target_currency_id: target_currency_id,
                           base_currency_id: @base_currency_id)
       end

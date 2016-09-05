@@ -4,9 +4,9 @@ class DailyRate < ApplicationRecord
   belongs_to :base_currency, class_name: 'Currency'
   belongs_to :target_currency, class_name: 'Currency'
 
-  def self.daily_rate_exists?(base_currency_id)
+  def self.daily_rate_exists?(base_currency_id, rate_date)
     return true if where('base_currency_id = ? AND rate_date = ?',
-                         base_currency_id, Date.today).count(:id) > 0
+                         base_currency_id, rate_date).count(:id) > 0
     false
   end
 end

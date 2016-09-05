@@ -61,12 +61,12 @@ class ExchangeService
       profit_loss = future_value - current_value
       future_currency_rates
         .push(
-                period: request_date.strftime('%Y W%W').to_s,
-                predicted_rate: future_rate.round(4),
-                future_value: future_value.round(2),
-                profit_loss: profit_loss.round(4),
-                rank: ''
-            )
+          period: request_date.strftime('%Y W%W').to_s,
+          predicted_rate: future_rate.round(4),
+          future_value: future_value.round(2),
+          profit_loss: profit_loss.round(4),
+          rank: ''
+        )
     end
     future_currency_rates
   end

@@ -1,9 +1,7 @@
 # Adapted from a C# example here:
 # http://stackoverflow.com/questions/43224/how-do-i-calculate-a-trendline-for-a-graph
-
 # And thanks to John Esser for helping figure out how to
 # calculate the targets to stabilize a negative slope!
-
 class LinearRegression
   attr_accessor :slope, :intercept
 
